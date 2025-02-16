@@ -78,3 +78,30 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+// Initialize EmailJS with your User ID
+(function() {
+    emailjs.init('D7mNEi2WjlbIXg4NT'); // Replace with your EmailJS user ID
+})();
+
+// Handle form submission
+document.getElementById('contactForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    const btn = event.target.querySelector('button');
+    btn.disabled = true;
+    btn.innerHTML = 'جارٍ الإرسال...';
+
+    emailjs.sendForm('service_l0n88kp', 'template_hslp92b', this)
+        .then(() => {
+            alert('تم إرسال الرسالة بنجاح!');
+            this.reset();
+        })
+        .catch((error) => {
+            alert('حدث خطأ أثناء الإرسال، يرجى المحاولة مرة أخرى.');
+            console.error('EmailJS Error:', error);
+        })
+        .finally(() => {
+            btn.disabled = false;
+            btn.innerHTML = 'إرسال';
+        });
+});
